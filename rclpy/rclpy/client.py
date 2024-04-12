@@ -66,7 +66,7 @@ class Client:
 
         self._lock = threading.Lock()
 
-    def call(self, request: SrvTypeRequest) -> SrvTypeResponse:
+    def call(self, request: SrvTypeRequest, timeout = None) -> SrvTypeResponse:
         """
         Make a service request and wait for the result.
 
@@ -94,7 +94,9 @@ class Client:
         # The callback might have been added after the future is completed,
         # resulting in the event never being set.
         if not future.done():
-            event.wait()
+            res = event.wait(timeout)
+        if not res:
+            raise TimeoutError('Timed out waiting for service response')
         if future.exception() is not None:
             raise future.exception()
         return future.result()
