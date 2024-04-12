@@ -16,6 +16,7 @@ import threading
 import time
 from typing import Dict
 from typing import TypeVar
+from typing import Optional
 
 from rclpy.callback_groups import CallbackGroup
 from rclpy.context import Context
